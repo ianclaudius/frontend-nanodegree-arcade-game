@@ -18,6 +18,8 @@ var yMin = 0;
 var xMax = 404;
 var yMax = 404;
 
+// TODO Create a Character superclass that enemies and players delegate to, and refactor accordingly
+
 // Enemies our player must avoid
 var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
@@ -68,13 +70,14 @@ var Player = function() {
 Player.prototype.update = function() {
     // Victory condition: player reaches the water
     if (this.y < yMin) {
-        this.respawn(); // This is a pretty lackluster victory celebration, but minimum viable product is the goal right now
+        this.respawn();
+        alert('You won!'); // This is a pretty lackluster victory celebration, but minimum viable product is the goal right now
     }
     // Loss condition: player collides with bug
     var position = this; // Need a placeholder variable here, as the scope of "this" changes in the below loop
     allEnemies.forEach(function(enemy) {
-        if (Math.floor(enemy.x) >= Math.floor(position.x) - 50 && Math.floor(enemy.x) <= Math.floor(position.x) + 50) {
-            if (Math.floor(enemy.y) >= Math.floor(position.y) - 50 && Math.floor(enemy.y) <= Math.floor(position.y) + 50) {
+        if (enemy.x >= position.x - 50 && enemy.x <= position.x + 50) {
+            if (enemy.y >= position.y - 50 && enemy.y <= position.y + 50) {
                 position.respawn();
             }
         }
